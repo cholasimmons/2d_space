@@ -1,0 +1,269 @@
+[gd_scene load_steps=2 format=3 uid="uid://cabh652778310"]
+
+[ext_resource type="Script" path="res://scripts/ui_debug.gd" id="1_blyix"]
+
+[node name="Debug" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_blyix")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 168.0
+offset_bottom = 296.0
+grow_horizontal = 2
+color = Color(0.121569, 0.121569, 0.121569, 0)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+offset_left = 1.0
+offset_top = 144.0
+offset_right = 833.0
+offset_bottom = 272.0
+theme_override_constants/separation = 12
+
+[node name="ColorRect" type="ColorRect" parent="HBoxContainer"]
+custom_minimum_size = Vector2(196, 128)
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0, 0, 0, 0.25098)
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="SpeedContainer" type="VBoxContainer" parent="HBoxContainer/ColorRect/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/ColorRect/MarginContainer/SpeedContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/ColorRect/MarginContainer/SpeedContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Thrust Force: "
+
+[node name="thrustforce" type="Label" parent="HBoxContainer/ColorRect/MarginContainer/SpeedContainer/HBoxContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "0.0
+"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="HBoxContainer/ColorRect/MarginContainer/SpeedContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/ColorRect/MarginContainer/SpeedContainer/HBoxContainer3"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Top Speed: "
+
+[node name="topspeed" type="Label" parent="HBoxContainer/ColorRect/MarginContainer/SpeedContainer/HBoxContainer3"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "0.0
+"
+horizontal_alignment = 2
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="HBoxContainer/ColorRect/MarginContainer/SpeedContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/ColorRect/MarginContainer/SpeedContainer/HBoxContainer4"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Current Speed: "
+
+[node name="currentspeed" type="Label" parent="HBoxContainer/ColorRect/MarginContainer/SpeedContainer/HBoxContainer4"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "0.0
+"
+horizontal_alignment = 2
+
+[node name="ColorRect2" type="ColorRect" parent="HBoxContainer"]
+auto_translate_mode = 1
+custom_minimum_size = Vector2(196, 128)
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0, 0, 0, 0.25098)
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/ColorRect2"]
+auto_translate_mode = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="RotationContainer" type="VBoxContainer" parent="HBoxContainer/ColorRect2/MarginContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/ColorRect2/MarginContainer/RotationContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/ColorRect2/MarginContainer/RotationContainer/HBoxContainer2"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Rotation Speed: "
+
+[node name="rotationspeed" type="Label" parent="HBoxContainer/ColorRect2/MarginContainer/RotationContainer/HBoxContainer2"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "0.0
+"
+horizontal_alignment = 2
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="HBoxContainer/ColorRect2/MarginContainer/RotationContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/ColorRect2/MarginContainer/RotationContainer/HBoxContainer4"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Rotation Angle: "
+
+[node name="rotationangle" type="Label" parent="HBoxContainer/ColorRect2/MarginContainer/RotationContainer/HBoxContainer4"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "0.0
+"
+horizontal_alignment = 2
+
+[node name="ColorRect3" type="ColorRect" parent="HBoxContainer"]
+auto_translate_mode = 1
+custom_minimum_size = Vector2(196, 128)
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0, 0, 0, 0.25098)
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/ColorRect3"]
+auto_translate_mode = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="ProximityContainer" type="VBoxContainer" parent="HBoxContainer/ColorRect3/MarginContainer"]
+auto_translate_mode = 1
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/ColorRect3/MarginContainer/ProximityContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Proximity:"
+
+[node name="proximityship1" type="Label" parent="HBoxContainer/ColorRect3/MarginContainer/ProximityContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "None
+"
+horizontal_alignment = 2
+
+[node name="proximityship2" type="Label" parent="HBoxContainer/ColorRect3/MarginContainer/ProximityContainer"]
+auto_translate_mode = 1
+visible = false
+layout_mode = 2
+text = "None
+"
+horizontal_alignment = 2
+
+[node name="proximityship3" type="Label" parent="HBoxContainer/ColorRect3/MarginContainer/ProximityContainer"]
+auto_translate_mode = 1
+visible = false
+layout_mode = 2
+text = "None
+"
+horizontal_alignment = 2
+
+[node name="ColorRect4" type="ColorRect" parent="HBoxContainer"]
+auto_translate_mode = 1
+custom_minimum_size = Vector2(196, 128)
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0, 0, 0, 0.25098)
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/ColorRect4"]
+auto_translate_mode = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="WeaponsContainer" type="VBoxContainer" parent="HBoxContainer/ColorRect4/MarginContainer"]
+auto_translate_mode = 1
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/ColorRect4/MarginContainer/WeaponsContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Weapons"
+
+[node name="weapon1" type="Label" parent="HBoxContainer/ColorRect4/MarginContainer/WeaponsContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.956863, 0, 1)
+text = "Guns"
+horizontal_alignment = 2
+
+[node name="weapon2" type="Label" parent="HBoxContainer/ColorRect4/MarginContainer/WeaponsContainer"]
+auto_translate_mode = 1
+visible = false
+layout_mode = 2
+text = "None
+"
+horizontal_alignment = 2
+
+[node name="weapon3" type="Label" parent="HBoxContainer/ColorRect4/MarginContainer/WeaponsContainer"]
+auto_translate_mode = 1
+visible = false
+layout_mode = 2
+text = "None
+"
+horizontal_alignment = 2
+
+[node name="BoxContainer" type="BoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3

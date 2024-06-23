@@ -1,0 +1,65 @@
+[gd_scene load_steps=8 format=3 uid="uid://dy74yu1qwaxwn"]
+
+[ext_resource type="Texture2D" uid="uid://cqfs8nf62s326" path="res://assets/ship_sprite.png" id="1_032c7"]
+[ext_resource type="Script" path="res://scripts/scene_ship.gd" id="1_53hb2"]
+[ext_resource type="Script" path="res://scenes/Dock2D.gd" id="3_a80j7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_odrsx"]
+size = Vector2(26, 38)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b2nbp"]
+size = Vector2(4.75, 10)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_phquj"]
+particle_flag_disable_z = true
+velocity_pivot = Vector3(3.48, 0, 0)
+direction = Vector3(4.895, 0, 0)
+gravity = Vector3(0, 0, 0)
+tangential_accel_min = -2.23517e-06
+tangential_accel_max = -2.23517e-06
+attractor_interaction_enabled = false
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_y0igl"]
+size = Vector2(8, 8)
+
+[node name="Ship" type="CharacterBody2D"]
+scale = Vector2(2, 2)
+script = ExtResource("1_53hb2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_odrsx")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 1.5708
+scale = Vector2(0.145, 0.145)
+texture = ExtResource("1_032c7")
+
+[node name="Dock2D" type="Area2D" parent="."]
+position = Vector2(-24, 0)
+script = ExtResource("3_a80j7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Dock2D"]
+position = Vector2(6.5, 0)
+shape = SubResource("RectangleShape2D_b2nbp")
+debug_color = Color(0.975543, 0, 0.418617, 0.42)
+
+[node name="GPU_R" type="GPUParticles2D" parent="."]
+position = Vector2(-7.5, 9.5)
+process_material = SubResource("ParticleProcessMaterial_phquj")
+texture = SubResource("PlaceholderTexture2D_y0igl")
+fixed_fps = 25
+
+[node name="GPU_L" type="GPUParticles2D" parent="."]
+position = Vector2(-8, -10)
+process_material = SubResource("ParticleProcessMaterial_phquj")
+texture = SubResource("PlaceholderTexture2D_y0igl")
+fixed_fps = 25
+
+[node name="GPU_Main" type="GPUParticles2D" parent="."]
+position = Vector2(-12.5, 1.5)
+amount = 18
+process_material = SubResource("ParticleProcessMaterial_phquj")
+texture = SubResource("PlaceholderTexture2D_y0igl")
+lifetime = 2.0
+fixed_fps = 25

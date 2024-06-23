@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://dy74yu1qwaxwn"]
+
+[ext_resource type="Texture2D" uid="uid://cqfs8nf62s326" path="res://assets/ship_sprite.png" id="1_032c7"]
+[ext_resource type="Script" path="res://scripts/ship.gd" id="1_53hb2"]
+[ext_resource type="Script" path="res://scenes/Dock2D.gd" id="3_a80j7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_odrsx"]
+size = Vector2(26, 38)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b2nbp"]
+size = Vector2(4.75, 10)
+
+[node name="Ship" type="CharacterBody2D"]
+scale = Vector2(2, 2)
+script = ExtResource("1_53hb2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_odrsx")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 1.5708
+scale = Vector2(0.145, 0.145)
+texture = ExtResource("1_032c7")
+
+[node name="Dock2D" type="Area2D" parent="."]
+position = Vector2(-24, 0)
+script = ExtResource("3_a80j7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Dock2D"]
+position = Vector2(6.5, 0)
+shape = SubResource("RectangleShape2D_b2nbp")
+debug_color = Color(0.975543, 0, 0.418617, 0.42)
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+position = Vector2(-9, 9.5)
