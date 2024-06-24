@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://ceuf02r82q2we"]
+
+[ext_resource type="Script" path="res://scripts/planet_03.gd" id="1_jfwik"]
+[ext_resource type="Texture2D" uid="uid://j2u8qr0p6dqk" path="res://assets/Planet_03.png" id="2_k1f86"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_e1ncq"]
+radius = 256.031
+
+[node name="Planet03" type="Node2D"]
+script = ExtResource("1_jfwik")
+planet_name = "Satarniaia"
+rotation_speed = 0.03
+
+[node name="Area2D" type="Area2D" parent="."]
+disable_mode = 1
+collision_layer = 8
+collision_mask = 8
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D"]
+scale = Vector2(0.72, 0.72)
+texture = ExtResource("2_k1f86")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-2, -3)
+shape = SubResource("CircleShape2D_e1ncq")

@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dxjjy0gck463y"
+path="res://.godot/imported/Lost in Space.mp3-6f9144c4b2c29ae8be6494270710e7c1.mp3str"
+
+[deps]
+
+source_file="res://audio/Lost in Space.mp3"
+dest_files=["res://.godot/imported/Lost in Space.mp3-6f9144c4b2c29ae8be6494270710e7c1.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

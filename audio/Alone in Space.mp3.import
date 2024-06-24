@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cu5pvyjtddqxv"
+path="res://.godot/imported/Alone in Space.mp3-25ff8298dbe0a1e40fa05e81c3fa606a.mp3str"
+
+[deps]
+
+source_file="res://audio/Alone in Space.mp3"
+dest_files=["res://.godot/imported/Alone in Space.mp3-25ff8298dbe0a1e40fa05e81c3fa606a.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

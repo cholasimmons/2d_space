@@ -2,18 +2,11 @@
 
 [ext_resource type="Script" path="res://scripts/ui_debug.gd" id="1_blyix"]
 
-[node name="Debug" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Debug" type="CanvasLayer"]
 script = ExtResource("1_blyix")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
-layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_top = 168.0
@@ -22,7 +15,6 @@ grow_horizontal = 2
 color = Color(0.121569, 0.121569, 0.121569, 0)
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-layout_mode = 2
 offset_left = 1.0
 offset_top = 144.0
 offset_right = 833.0

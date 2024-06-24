@@ -1,0 +1,110 @@
+[gd_scene load_steps=14 format=3 uid="uid://2a3m16bs5bfm"]
+
+[ext_resource type="PackedScene" uid="uid://dy74yu1qwaxwn" path="res://scenes/ship.tscn" id="1_6c5bo"]
+[ext_resource type="Script" path="res://scripts/world.gd" id="1_icse2"]
+[ext_resource type="PackedScene" uid="uid://wb48csdfxnlg" path="res://ui/hud.tscn" id="1_tlyc6"]
+[ext_resource type="PackedScene" uid="uid://cabh652778310" path="res://ui/debug.tscn" id="3_bnj5k"]
+[ext_resource type="Texture2D" uid="uid://bom6531kvsfdc" path="res://assets/space1.jpg" id="5_bnjew"]
+[ext_resource type="Script" path="res://scripts/camera_script.gd" id="5_f6now"]
+[ext_resource type="PackedScene" uid="uid://ddtlebvhrh2gc" path="res://scenes/planet_01.tscn" id="7_ktc1n"]
+[ext_resource type="PackedScene" uid="uid://erngacg6jym" path="res://scenes/planet_02.tscn" id="8_ijibi"]
+[ext_resource type="AudioStream" uid="uid://dxjjy0gck463y" path="res://audio/Lost in Space.mp3" id="9_ulgia"]
+[ext_resource type="Script" path="res://scripts/planet_02.gd" id="9_vxec8"]
+
+[sub_resource type="Animation" id="Animation_0fq3u"]
+resource_name = "screen_fade"
+length = 2.0
+step = 0.04
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Fader:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(0.999999, 1.31951),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_sjkud"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Fader:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_j842d"]
+_data = {
+"RESET": SubResource("Animation_sjkud"),
+"screen_fade": SubResource("Animation_0fq3u")
+}
+
+[node name="2D_World" type="Node2D"]
+script = ExtResource("1_icse2")
+
+[node name="Hud" parent="." instance=ExtResource("1_tlyc6")]
+visible = false
+
+[node name="Debug" parent="." instance=ExtResource("3_bnj5k")]
+visible = false
+
+[node name="Ship" parent="." instance=ExtResource("1_6c5bo")]
+mass = 0.6
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.8, 0.8)
+script = ExtResource("5_f6now")
+
+[node name="Fader" type="ColorRect" parent="Camera2D"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer_BG" type="ParallaxLayer" parent="ParallaxBackground"]
+texture_filter = 3
+texture_repeat = 3
+motion_scale = Vector2(0.2, 0.2)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer_BG"]
+scale = Vector2(2, 2)
+texture = ExtResource("5_bnjew")
+
+[node name="ParallaxLayer_Planets" type="ParallaxLayer" parent="ParallaxBackground"]
+texture_filter = 3
+texture_repeat = 3
+motion_scale = Vector2(0.5, 0.5)
+
+[node name="Planet01" parent="ParallaxBackground/ParallaxLayer_Planets" instance=ExtResource("7_ktc1n")]
+position = Vector2(584, 264)
+
+[node name="Planet02" parent="ParallaxBackground/ParallaxLayer_Planets" instance=ExtResource("8_ijibi")]
+position = Vector2(-1026, 0)
+script = ExtResource("9_vxec8")
+planet_name = "Hichilemus"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_ulgia")
+volume_db = -4.0
+autoplay = true
+parameters/looping = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_j842d")
+}

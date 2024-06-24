@@ -1,11 +1,15 @@
-[gd_scene load_steps=8 format=3 uid="uid://dy74yu1qwaxwn"]
+[gd_scene load_steps=11 format=3 uid="uid://dy74yu1qwaxwn"]
 
 [ext_resource type="Texture2D" uid="uid://cqfs8nf62s326" path="res://assets/ship_sprite.png" id="1_032c7"]
 [ext_resource type="Script" path="res://scripts/scene_ship.gd" id="1_53hb2"]
 [ext_resource type="Script" path="res://scenes/Dock2D.gd" id="3_a80j7"]
+[ext_resource type="Script" path="res://scripts/ship_proximity_scanner.gd" id="4_18h7y"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_odrsx"]
-size = Vector2(26, 38)
+size = Vector2(10, 35.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mqoxl"]
+size = Vector2(36, 11)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b2nbp"]
 size = Vector2(4.75, 10)
@@ -22,13 +26,24 @@ attractor_interaction_enabled = false
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_y0igl"]
 size = Vector2(8, 8)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_btmy6"]
+radius = 200.0
+
 [node name="Ship" type="CharacterBody2D"]
 scale = Vector2(2, 2)
+collision_layer = 3
+motion_mode = 1
 script = ExtResource("1_53hb2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.25, -9.04998e-07)
 rotation = 1.5708
 shape = SubResource("RectangleShape2D_odrsx")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2(-7.5, -1.7195e-05)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_mqoxl")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 rotation = 1.5708
@@ -36,30 +51,58 @@ scale = Vector2(0.145, 0.145)
 texture = ExtResource("1_032c7")
 
 [node name="Dock2D" type="Area2D" parent="."]
-position = Vector2(-24, 0)
+position = Vector2(-18, 0)
 script = ExtResource("3_a80j7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Dock2D"]
-position = Vector2(6.5, 0)
 shape = SubResource("RectangleShape2D_b2nbp")
 debug_color = Color(0.975543, 0, 0.418617, 0.42)
 
 [node name="GPU_R" type="GPUParticles2D" parent="."]
-position = Vector2(-7.5, 9.5)
+position = Vector2(-12.5, 18)
+amount = 18
 process_material = SubResource("ParticleProcessMaterial_phquj")
 texture = SubResource("PlaceholderTexture2D_y0igl")
 fixed_fps = 25
 
 [node name="GPU_L" type="GPUParticles2D" parent="."]
-position = Vector2(-8, -10)
+position = Vector2(-12.5, -18)
+amount = 18
 process_material = SubResource("ParticleProcessMaterial_phquj")
 texture = SubResource("PlaceholderTexture2D_y0igl")
 fixed_fps = 25
 
-[node name="GPU_Main" type="GPUParticles2D" parent="."]
-position = Vector2(-12.5, 1.5)
-amount = 18
-process_material = SubResource("ParticleProcessMaterial_phquj")
-texture = SubResource("PlaceholderTexture2D_y0igl")
-lifetime = 2.0
-fixed_fps = 25
+[node name="Line2D_L" type="Line2D" parent="."]
+visible = false
+position = Vector2(-3, 0.5)
+points = PackedVector2Array(0, -0.5)
+width = 2.0
+default_color = Color(0.80544, 0.937159, 1, 0.454902)
+joint_mode = 2
+end_cap_mode = 2
+
+[node name="Line2D_R" type="Line2D" parent="."]
+visible = false
+position = Vector2(-3, 0.5)
+points = PackedVector2Array(0, -0.5)
+width = 2.0
+default_color = Color(0.80544, 0.937159, 1, 0.454902)
+joint_mode = 2
+end_cap_mode = 2
+
+[node name="Proximity2D" type="Area2D" parent="."]
+script = ExtResource("4_18h7y")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Proximity2D"]
+visible = false
+shape = SubResource("CircleShape2D_btmy6")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
+[node name="lefttip" type="Node2D" parent="."]
+position = Vector2(-12.5, -18)
+
+[node name="righttip" type="Node2D" parent="."]
+position = Vector2(-12.5, 18)

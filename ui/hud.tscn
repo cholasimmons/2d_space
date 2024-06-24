@@ -17,73 +17,33 @@ skew = Vector2(0.3, 0)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fayu5"]
 bg_color = Color(0.894118, 0.866667, 0, 1)
 
-[node name="Hud" type="Control"]
+[node name="Hud" type="CanvasLayer"]
+script = ExtResource("1_qmkqd")
+
+[node name="Control" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-script = ExtResource("1_qmkqd")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-visible = false
+[node name="HBoxContainer" type="HBoxContainer" parent="Control"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 128.0
+offset_bottom = 100.0
 grow_horizontal = 2
-color = Color(0.121569, 0.121569, 0.121569, 0.65098)
-
-[node name="MarginContainer" type="MarginContainer" parent="ColorRect"]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -1.0
-offset_right = -1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
-
-[node name="DockedContainer" type="HBoxContainer" parent="ColorRect"]
-visible = false
-layout_mode = 0
-offset_left = 13.0
-offset_top = 127.0
-offset_right = 100.0
-offset_bottom = 167.0
-
-[node name="Label" type="Label" parent="ColorRect/DockedContainer"]
-layout_mode = 2
-text = "Docked to: "
-
-[node name="dockedto" type="Label" parent="ColorRect/DockedContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-text = "None
-"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-layout_mode = 2
-offset_right = 560.0
-offset_bottom = 91.0
 theme_override_constants/separation = 12
 
-[node name="ColorRect2" type="ColorRect" parent="HBoxContainer"]
+[node name="ColorRect2" type="ColorRect" parent="Control/HBoxContainer"]
 auto_translate_mode = 1
 custom_minimum_size = Vector2(164, 100)
 layout_mode = 2
 size_flags_horizontal = 3
 color = Color(0.121569, 0.121569, 0.121569, 0.25098)
 
-[node name="MarginContainer2" type="MarginContainer" parent="HBoxContainer/ColorRect2"]
+[node name="MarginContainer2" type="MarginContainer" parent="Control/HBoxContainer/ColorRect2"]
 auto_translate_mode = 1
 layout_mode = 1
 anchors_preset = 15
@@ -98,33 +58,33 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/ColorRect2/MarginContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/HBoxContainer/ColorRect2/MarginContainer2"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer/ColorRect2/MarginContainer2/VBoxContainer"]
+[node name="Label" type="Label" parent="Control/HBoxContainer/ColorRect2/MarginContainer2/VBoxContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 text = "Acceleration"
 
-[node name="BoxContainer" type="BoxContainer" parent="HBoxContainer/ColorRect2/MarginContainer2/VBoxContainer"]
+[node name="BoxContainer" type="BoxContainer" parent="Control/HBoxContainer/ColorRect2/MarginContainer2/VBoxContainer"]
 custom_minimum_size = Vector2(128, 12)
 layout_mode = 2
 
-[node name="accel" type="ProgressBar" parent="HBoxContainer/ColorRect2/MarginContainer2/VBoxContainer"]
+[node name="accel" type="ProgressBar" parent="Control/HBoxContainer/ColorRect2/MarginContainer2/VBoxContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 theme_override_styles/fill = SubResource("StyleBoxFlat_cogfq")
 step = 1.0
 value = 41.0
 
-[node name="ColorRect3" type="ColorRect" parent="HBoxContainer"]
+[node name="ColorRect3" type="ColorRect" parent="Control/HBoxContainer"]
 auto_translate_mode = 1
 custom_minimum_size = Vector2(164, 100)
 layout_mode = 2
 size_flags_horizontal = 3
 color = Color(0.121569, 0.121569, 0.121569, 0.25098)
 
-[node name="MarginContainer2" type="MarginContainer" parent="HBoxContainer/ColorRect3"]
+[node name="MarginContainer2" type="MarginContainer" parent="Control/HBoxContainer/ColorRect3"]
 auto_translate_mode = 1
 layout_mode = 1
 anchors_preset = 15
@@ -137,35 +97,35 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer/ColorRect3/MarginContainer2"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="Control/HBoxContainer/ColorRect3/MarginContainer2"]
 auto_translate_mode = 1
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer/ColorRect3/MarginContainer2/VBoxContainer2"]
+[node name="Label" type="Label" parent="Control/HBoxContainer/ColorRect3/MarginContainer2/VBoxContainer2"]
 auto_translate_mode = 1
 layout_mode = 2
 text = "Brake"
 
-[node name="BoxContainer2" type="BoxContainer" parent="HBoxContainer/ColorRect3/MarginContainer2/VBoxContainer2"]
+[node name="BoxContainer2" type="BoxContainer" parent="Control/HBoxContainer/ColorRect3/MarginContainer2/VBoxContainer2"]
 auto_translate_mode = 1
 custom_minimum_size = Vector2(128, 12)
 layout_mode = 2
 
-[node name="brake" type="ProgressBar" parent="HBoxContainer/ColorRect3/MarginContainer2/VBoxContainer2"]
+[node name="brake" type="ProgressBar" parent="Control/HBoxContainer/ColorRect3/MarginContainer2/VBoxContainer2"]
 auto_translate_mode = 1
 layout_mode = 2
 theme_override_styles/fill = SubResource("StyleBoxFlat_02rru")
 step = 1.0
 value = 41.0
 
-[node name="ColorRect4" type="ColorRect" parent="HBoxContainer"]
+[node name="ColorRect4" type="ColorRect" parent="Control/HBoxContainer"]
 auto_translate_mode = 1
 custom_minimum_size = Vector2(164, 100)
 layout_mode = 2
 size_flags_horizontal = 3
 color = Color(0.121569, 0.121569, 0.121569, 0.25098)
 
-[node name="MarginContainer2" type="MarginContainer" parent="HBoxContainer/ColorRect4"]
+[node name="MarginContainer2" type="MarginContainer" parent="Control/HBoxContainer/ColorRect4"]
 auto_translate_mode = 1
 layout_mode = 1
 anchors_preset = 15
@@ -178,40 +138,40 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer3" type="VBoxContainer" parent="HBoxContainer/ColorRect4/MarginContainer2"]
+[node name="VBoxContainer3" type="VBoxContainer" parent="Control/HBoxContainer/ColorRect4/MarginContainer2"]
 auto_translate_mode = 1
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer/ColorRect4/MarginContainer2/VBoxContainer3"]
+[node name="Label" type="Label" parent="Control/HBoxContainer/ColorRect4/MarginContainer2/VBoxContainer3"]
 auto_translate_mode = 1
 layout_mode = 2
 text = "Speed
 "
 
-[node name="BoxContainer3" type="BoxContainer" parent="HBoxContainer/ColorRect4/MarginContainer2/VBoxContainer3"]
+[node name="BoxContainer3" type="BoxContainer" parent="Control/HBoxContainer/ColorRect4/MarginContainer2/VBoxContainer3"]
 auto_translate_mode = 1
 custom_minimum_size = Vector2(128, 12)
 layout_mode = 2
 
-[node name="speed" type="ProgressBar" parent="HBoxContainer/ColorRect4/MarginContainer2/VBoxContainer3"]
+[node name="speed" type="ProgressBar" parent="Control/HBoxContainer/ColorRect4/MarginContainer2/VBoxContainer3"]
 auto_translate_mode = 1
 layout_mode = 2
 theme_override_styles/fill = SubResource("StyleBoxFlat_lnwxq")
 step = 1.0
 value = 41.0
 
-[node name="BoxContainer" type="BoxContainer" parent="HBoxContainer"]
+[node name="BoxContainer" type="BoxContainer" parent="Control/HBoxContainer"]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="ColorRect5" type="ColorRect" parent="HBoxContainer"]
+[node name="ColorRect5" type="ColorRect" parent="Control/HBoxContainer"]
 auto_translate_mode = 1
 custom_minimum_size = Vector2(200, 100)
 layout_mode = 2
 color = Color(0.121569, 0.121569, 0.121569, 0.25098)
 
-[node name="MarginContainer2" type="MarginContainer" parent="HBoxContainer/ColorRect5"]
+[node name="MarginContainer2" type="MarginContainer" parent="Control/HBoxContainer/ColorRect5"]
 auto_translate_mode = 1
 layout_mode = 1
 anchors_preset = 15
@@ -224,11 +184,11 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer4" type="VBoxContainer" parent="HBoxContainer/ColorRect5/MarginContainer2"]
+[node name="VBoxContainer4" type="VBoxContainer" parent="Control/HBoxContainer/ColorRect5/MarginContainer2"]
 auto_translate_mode = 1
 layout_mode = 2
 
-[node name="shipname" type="Label" parent="HBoxContainer/ColorRect5/MarginContainer2/VBoxContainer4"]
+[node name="shipname" type="Label" parent="Control/HBoxContainer/ColorRect5/MarginContainer2/VBoxContainer4"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 0.8, 1)
 theme_override_font_sizes/font_size = 20
@@ -236,25 +196,25 @@ text = "Ship Name"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="shipclass" type="Label" parent="HBoxContainer/ColorRect5/MarginContainer2/VBoxContainer4"]
+[node name="shipclass" type="Label" parent="Control/HBoxContainer/ColorRect5/MarginContainer2/VBoxContainer4"]
 auto_translate_mode = 1
 layout_mode = 2
-text = "Speed
+text = "Class
 "
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="BoxContainer3" type="BoxContainer" parent="HBoxContainer/ColorRect5/MarginContainer2/VBoxContainer4"]
+[node name="BoxContainer3" type="BoxContainer" parent="Control/HBoxContainer/ColorRect5/MarginContainer2/VBoxContainer4"]
 auto_translate_mode = 1
 custom_minimum_size = Vector2(128, 4)
 layout_mode = 2
 
-[node name="health" type="ProgressBar" parent="HBoxContainer/ColorRect5/MarginContainer2/VBoxContainer4"]
+[node name="health" type="ProgressBar" parent="Control/HBoxContainer/ColorRect5/MarginContainer2/VBoxContainer4"]
 auto_translate_mode = 1
 custom_minimum_size = Vector2(0, 18)
 layout_mode = 2
 theme_override_styles/fill = SubResource("StyleBoxFlat_fayu5")
 step = 5.0
-value = 41.0
+value = 40.0
 fill_mode = 1
 show_percentage = false
