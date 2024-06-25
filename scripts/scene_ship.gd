@@ -4,15 +4,12 @@ signal ship_engine(stats)
 signal ship_is_ready(ready)
 signal ship_stats(ship_stats)
 
+var weapon_sound: AudioSample
+@onready var weapon_audio_player: AudioStreamPlayer = $AudioStreamPlayer0
+@onready var igniteSound: AudioStreamPlayer = $AudioStreamPlayer1
+@onready var thrustSound: AudioStreamPlayer = $AudioStreamPlayer2
 @onready var hatch = $Dock2D
 @onready var scanner = $Proximity2D
-
-# chemtrails
-@onready var line2d_l = $Line2D_L
-@onready var line2d_r = $Line2D_R
-@onready var lefttip = $lefttip
-@onready var righttip = $righttip
-@onready var timer = $Timer
 
 @export var ship_name:String = 'Nebuchadnnezzer'
 @export var ship_class:String = 'Destroyer'
@@ -30,12 +27,17 @@ const MAX_HEALTH = 100.0
 
 var scanner_radius = 175
 
+# weapons
 enum weapons_arsenal {
 	gun,
 	rocket,
 	torpedo
 }
 var selected_weapon: weapons_arsenal = weapons_arsenal.gun
+const BULLET_PATH: String = "res://scenes/Bullet.tscn"
+@onready var bulletPool = load("res://scenes/BulletPool.tscn").instantiate()
+var shootCooldown: float = 0.2  # Adjust this value based on your game's needs
+var lastShootTime: float = 0.0
 
 # Variables
 # velocity = Vector2.ZERO
@@ -56,22 +58,22 @@ var target_rotation_multiplier = 0.0
 
 var show_debug := false;
 
-# chemtrails
-var trail_points_left = []
-var trail_points_right = []
+
+# audio
+var playing_ignite:= false
+var playing_thrust:= false
 
 func _ready() -> void:
-	timer.wait_time = 0.1
-	timer.connect("timeout", _on_Timer_timeout)
-	timer.start();
-	
 	var ready = {
 		"name":ship_name,
 		"class":ship_class
 	}
 	if ship_name and ship_class:
-		await emit_signal("ship_is_ready", ready)
+		print(ready.name, " ready to blast off")
+		emit_signal("ship_is_ready", ready)
 	hatch.connect("docked_with_ship", _on_docked_with_ship)
+	
+	# weapon_sound = AudioSample.new()
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("reset"):
@@ -106,6 +108,8 @@ func _process(delta: float) -> void:
 		# Update acceleration multiplier based on input
 		current_acceleration = lerp(current_acceleration, 1.0, ACCELERATION_SPEED * delta)
 		thrust_vector = Vector2((THRUST_FORCE/mass), 0).rotated(rotation) * current_acceleration
+		if current_speed > 10 and !playing_ignite:
+			play_ignite_sound()
 	elif Input.is_action_pressed("ui_down"):
 		current_brake = lerp(current_brake, 0.9, DECELERATION_SPEED * delta)
 		thrust_vector = Vector2(-(THRUST_FORCE/mass), 0).rotated(rotation) * current_brake
@@ -153,6 +157,13 @@ func _process(delta: float) -> void:
 	# Calculate and update the current speed
 	current_speed = velocity.length()
 	
+	# audio stuff
+	if current_speed > 150 and !playing_thrust:
+		play_thrust_sound()
+	if current_speed < 150:
+		thrustSound.stop()
+		playing_thrust = false
+	
 	var ship = {
 		"acceleration":current_acceleration,
 		"brake":current_brake,
@@ -170,23 +181,7 @@ func _process(delta: float) -> void:
 		"rot_angle":rotation_angle,
 		"gun":selected_weapon
 	})
-	
-	# Update the time for each trail point
-	for point in trail_points_left:
-		point["time"] += delta
-	for point in trail_points_right:
-		point["time"] += delta
 
-	# Remove points older than 2 seconds
-	trail_points_left = trail_points_left.filter(func(point):
-		return point["time"] <= .5
-	)
-	trail_points_right = trail_points_right.filter(func(point):
-		return point["time"] <= .5
-	)
-
-	# Update the Line2D points
-	_update_line2d()
 
 func _physics_process(_delta:float):
 	pass
@@ -201,10 +196,43 @@ func attempt_dock():
 	
 func select_weapon(weapon_id: int):
 	selected_weapon = weapons_arsenal.rocket
+	#weapon_sound.set("audio")
+	#weapon_audio_player.set_stream(weapon_sound)
 	print("Selected weapon: ",weapon_id, selected_weapon)
 
 func shoot_weapon(weapon: weapons_arsenal):
-	print("Firing: ",weapon)
+	if (Time.get_time_dict_from_system()["second"] - lastShootTime) >= shootCooldown:
+		#print("Firing: ",weapon)
+		# Instantiate the bullet scene
+		#var bullet = load(BULLET_PATH).instantiate()
+		
+		# Set the bullet's initial position and rotation (adjust as needed)
+		#bullet.global_position = global_position  # Or use a specific spawn point
+		#bullet.rotation = rotation  # Match the ship's rotation
+#
+		## Add the bullet to the scene
+		#get_parent().add_child(bullet)
+		
+		#lastShootTime = Time.get_time_dict_from_system()["second"]
+		
+		var bullet = bulletPool.get_bullet() # Get a bullet from the pool
+		
+		# Check if a bullet was successfully obtained from the pool
+		if bullet:
+			bullet.visible = true  # Show the bullet
+			# Reset bullet properties (position, rotation, etc.)
+			bullet.global_position = global_position  # Or use a specific spawn point
+			bullet.rotation = rotation  # Match the ship's rotation
+			
+			# Apply velocity to the bullet (assuming your bullet script handles this)
+			bullet.velocity = Vector2(bullet.bullet_speed, 0).rotated(rotation)
+
+			# Play shooting audio (if applicable)
+			weapon_audio_player.play()
+		else:
+			print("Bullet pool is empty! Cannot shoot.")
+
+		
 
 func _on_docked_with_ship(other_ship):
 	print("docked with: ", other_ship.name)
@@ -221,38 +249,31 @@ func move_strafe(direction):
 	# Start cooldown timer
 	can_strafe = false
 
-func _on_Timer_timeout():
-	var left_tip_position = lefttip.global_position
-	var right_tip_position = righttip.global_position
-	# Add the new points to the trail
-	trail_points_left.append({
-		"position": left_tip_position,
-		"time": 0.0  # Initialize the time for fading
-	})
-	trail_points_right.append({
-		"position": right_tip_position,
-		"time": 0.0  # Initialize the time for fading
-	})
 
-	# Update the Line2D points
-	_update_line2d()
-	
-func _update_line2d():
-	line2d_l.clear_points()
-	line2d_r.clear_points()
 
-	for point in trail_points_left:
-		#var alpha = 1.0
-		#if point["time"] > 1.0:
-			#alpha = 2.0 - point["time"]  # Fade out in the second second
-		#var color = Color(1, 1, 1, alpha)  # White color with varying alpha
-		line2d_l.add_point(point["position"])
-		#line2d_l.default_color(line2d_l.get_point_count() - 1, color)
+# engines
+func play_ignite_sound():
+	# Check if the AudioStreamPlayer node is valid and the audio is not already playing
+	#if playing_thrust:
+		#thrustSound.volume_db -= thrustSound.volume_db * 1.5
+		#thrustSound.stop()
+		#playing_thrust = false
+	if igniteSound and !igniteSound.is_playing() and !playing_thrust:
+		igniteSound.play()
+		playing_ignite = true
+	igniteSound.connect("finished", finished_ignite)
 
-	for point in trail_points_right:
-		#var alpha = 1.0
-		#if point["time"] > 1.0:
-			#alpha = 2.0 - point["time"]  # Fade out in the second second
-		#var color = Color(1, 1, 1, alpha)  # White color with varying alpha
-		line2d_r.add_point(point["position"])
-		#line2d_r.default_color(line2d_r.get_point_count() - 1, color)
+func play_thrust_sound():
+	# Check if the AudioStreamPlayer node is valid and the audio is not already playing
+	if playing_ignite:
+		igniteSound.volume_db -= igniteSound.volume_db * 1.5
+		igniteSound.stop()
+		playing_ignite = false
+	if thrustSound and !thrustSound.is_playing():
+		thrustSound.play()
+		playing_thrust = true
+
+func finished_ignite():
+	playing_ignite = false
+func finished_thrust():
+	playing_thrust = false

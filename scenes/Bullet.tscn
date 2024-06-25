@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://biat7rh88doue"]
+
+[ext_resource type="Script" path="res://scripts/bullet.gd" id="1_qrbgs"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4m5ni"]
+size = Vector2(10, 2)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_umj1i"]
+specular_color = Color(0.982054, 0.527153, 0.61501, 1)
+
+[node name="Bullet" type="Node2D"]
+script = ExtResource("1_qrbgs")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_4m5ni")
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D"]
+modulate = Color(0.894118, 0.811765, 0.486275, 1)
+scale = Vector2(10, 2)
+texture = SubResource("CanvasTexture_umj1i")

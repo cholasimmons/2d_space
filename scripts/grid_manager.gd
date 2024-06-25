@@ -1,48 +1,21 @@
 extends Node2D
 
-@onready var ship = $Ship
-@onready var hud = $Hud
-@onready var debug = $Debug
-@onready var fader = $CanvasLayer/Fader
-@onready var animationplayer = $AnimationPlayer
-@onready var audioplayer = $AudioStreamPlayer
-
-# procedural | grid manager
 @export var grid_size = Vector2(1024, 1024)  # Size of each grid cell
 @export var grid_count = 20  # Number of grid cells in one dimension (total grids will be grid_count^2)
 @export var seed = 42  # Seed for random generation
 @export var load_radius = 2  # Number of grids around the player to keep loaded
+
 var grids = {}
 var loaded_grids = {}
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	ship.connect("ship_is_ready", hud._on_ship_ready)
-	ship.connect("ship_engine", hud._on_ship_engine)
-	ship.connect("ship_stats", debug._on_ship_stats)
-	print("World Ready.")
-	animationplayer.play("fade_in_anim")
-	animationplayer.connect("animation_finished", _on_fade_complete)
-	audioplayer.stop()
+func _ready():
+	randomize_with_seed(seed)
+	set_process(true)
+	#generate_playable_area()
 
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("escape"):
-		get_tree().quit()
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(delta):
 	update_loaded_grids()
 
-func _on_fade_complete():
-	randomize_with_seed(seed)
-	queue_free()
-	fader.visible = false
-
-
-
-
-
-# grid manager
 func randomize_with_seed(seed):
 	RandomNumberGenerator.new().seed = seed
 

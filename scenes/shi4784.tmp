@@ -5,8 +5,12 @@
 [ext_resource type="Script" path="res://scripts/line_2d_script.gd" id="2_1lgan"]
 [ext_resource type="Script" path="res://scenes/Dock2D.gd" id="3_a80j7"]
 [ext_resource type="Script" path="res://scripts/ship_proximity_scanner.gd" id="4_18h7y"]
-[ext_resource type="AudioStream" uid="uid://cc3j0etjj37mv" path="res://audio/laser-gun.mp3" id="6_yljhl"]
-[ext_resource type="AudioStream" uid="uid://ctvm12hmns2i4" path="res://audio/massive_thrust.mp3" id="7_803kg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_odrsx"]
+size = Vector2(10, 35.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mqoxl"]
+size = Vector2(36, 11)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b2nbp"]
 size = Vector2(4.75, 10)
@@ -27,16 +31,34 @@ size = Vector2(8, 8)
 radius = 200.0
 
 [node name="Ship" type="CharacterBody2D"]
+scale = Vector2(2, 2)
 collision_layer = 3
 motion_mode = 1
 script = ExtResource("1_53hb2")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array(-21, -38, -14, -26, -6, -25, 2, -11, 16, -11, 34, -3, 34, 4, 16, 11, 2, 11, -5, 25, -14, 26, -20, 37, -27, 38, -31, 24, -36, 5, -36, -6, -31, -24, -27, -38)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.25, -9.04998e-07)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_odrsx")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2(-7.5, -1.7195e-05)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_mqoxl")
+
+[node name="Line2D" type="Line2D" parent="."]
+visible = false
+position = Vector2(-3, 0.5)
+points = PackedVector2Array(0, -0.5)
+width = 2.0
+default_color = Color(0.80544, 0.937159, 1, 0.454902)
+joint_mode = 2
+end_cap_mode = 2
+script = ExtResource("2_1lgan")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 rotation = 1.5708
-scale = Vector2(0.3, 0.3)
+scale = Vector2(0.145, 0.145)
 texture = ExtResource("1_032c7")
 
 [node name="Dock2D" type="Area2D" parent="."]
@@ -44,12 +66,10 @@ position = Vector2(-18, 0)
 script = ExtResource("3_a80j7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Dock2D"]
-position = Vector2(-19, 0)
 shape = SubResource("RectangleShape2D_b2nbp")
 debug_color = Color(0.975543, 0, 0.418617, 0.42)
 
 [node name="GPU_R" type="GPUParticles2D" parent="."]
-visible = false
 position = Vector2(-12.5, 18)
 amount = 18
 process_material = SubResource("ParticleProcessMaterial_phquj")
@@ -57,7 +77,6 @@ texture = SubResource("PlaceholderTexture2D_y0igl")
 fixed_fps = 25
 
 [node name="GPU_L" type="GPUParticles2D" parent="."]
-visible = false
 position = Vector2(-12.5, -18)
 amount = 18
 process_material = SubResource("ParticleProcessMaterial_phquj")
@@ -75,27 +94,8 @@ shape = SubResource("CircleShape2D_btmy6")
 wait_time = 0.1
 autostart = true
 
-[node name="TrailEmitter" type="Node2D" parent="."]
-show_behind_parent = true
-position = Vector2(-1.24998, -6)
-rotation = 1.5708
-scale = Vector2(2, 2)
-script = ExtResource("2_1lgan")
-
 [node name="trail_l" type="Node2D" parent="."]
-position = Vector2(-26, -37)
+position = Vector2(-12.5, -18)
 
 [node name="trail_r" type="Node2D" parent="."]
-position = Vector2(-26, 37)
-
-[node name="AudioStreamPlayer0" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("6_yljhl")
-volume_db = -5.5
-pitch_scale = 0.6
-
-[node name="AudioStreamPlayer1" type="AudioStreamPlayer" parent="."]
-
-[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("7_803kg")
-volume_db = -3.0
-parameters/looping = true
+position = Vector2(-12.5, 18)

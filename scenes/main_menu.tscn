@@ -1,8 +1,8 @@
 [gd_scene load_steps=12 format=3 uid="uid://dd7wkl5ak8jf0"]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_8l5l4"]
-[ext_resource type="Texture2D" uid="uid://djr71ykj11dmh" path="res://assets/menu_bg.jpeg" id="1_lioe2"]
 [ext_resource type="Texture2D" uid="uid://datvi7be4xxk7" path="res://art/title_raw.png" id="2_6eivg"]
+[ext_resource type="Texture2D" uid="uid://41rtasxhbbiq" path="res://art/artwork_1.jpeg" id="2_uyw78"]
 [ext_resource type="AudioStream" uid="uid://cu5pvyjtddqxv" path="res://audio/Alone in Space.mp3" id="4_xfswi"]
 
 [sub_resource type="SystemFont" id="SystemFont_hse25"]
@@ -101,9 +101,9 @@ grow_vertical = 2
 color = Color(0.00310487, 0.158321, 0.211626, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="MenuControl/ColorRect"]
-position = Vector2(578, 96)
-scale = Vector2(1.12891, 1.12891)
-texture = ExtResource("1_lioe2")
+position = Vector2(578, 286)
+scale = Vector2(0.896875, 0.896875)
+texture = ExtResource("2_uyw78")
 
 [node name="ColorRect2" type="ColorRect" parent="MenuControl"]
 custom_minimum_size = Vector2(256, 128)
@@ -114,9 +114,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -185.0
-offset_top = 72.0
+offset_top = 117.0
 offset_right = 185.0
-offset_bottom = 200.0
+offset_bottom = 245.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.00392157, 0.156863, 0.211765, 0.658824)
@@ -143,6 +143,7 @@ text = "START"
 flat = true
 
 [node name="ColorRect3" type="ColorRect" parent="MenuControl"]
+visible = false
 custom_minimum_size = Vector2(256, 128)
 layout_mode = 1
 anchors_preset = 10
@@ -154,6 +155,7 @@ grow_horizontal = 2
 color = Color(0.00392157, 0.156863, 0.211765, 0.658824)
 
 [node name="title" type="Sprite2D" parent="MenuControl/ColorRect3"]
+visible = false
 position = Vector2(322, 114)
 scale = Vector2(0.422222, 0.422222)
 texture = ExtResource("2_6eivg")
