@@ -1,6 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://wb48csdfxnlg"]
+[gd_scene load_steps=14 format=3 uid="uid://wb48csdfxnlg"]
 
 [ext_resource type="Script" path="res://scripts/ui_hud.gd" id="1_qmkqd"]
+[ext_resource type="Texture2D" uid="uid://cder3ori0w6bv" path="res://art/gem_black.png" id="2_o6kjg"]
+[ext_resource type="Texture2D" uid="uid://cr3xxdrj6g5xu" path="res://art/gem_green.png" id="3_8ftin"]
+[ext_resource type="Texture2D" uid="uid://b52bt3tr81vm2" path="res://art/gem_yellow.png" id="4_jjij3"]
+[ext_resource type="Texture2D" uid="uid://dbvut71d2hgvj" path="res://art/btn_up.png" id="5_k26jh"]
+[ext_resource type="Texture2D" uid="uid://cl278bi2m2228" path="res://art/btn_down.png" id="6_ktjc6"]
+[ext_resource type="Texture2D" uid="uid://br55v32kxy6bv" path="res://art/btn_left.png" id="7_gwwr3"]
+[ext_resource type="Texture2D" uid="uid://c3b1242d411oi" path="res://art/btn_right.png" id="8_17buh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cogfq"]
 bg_color = Color(0.234192, 0.678664, 0.649634, 1)
@@ -16,6 +23,9 @@ skew = Vector2(0.3, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fayu5"]
 bg_color = Color(0.894118, 0.866667, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cktpe"]
+size = Vector2(230, 148)
 
 [node name="Hud" type="CanvasLayer"]
 script = ExtResource("1_qmkqd")
@@ -104,7 +114,7 @@ layout_mode = 2
 [node name="Label" type="Label" parent="Control/HBoxContainer/ColorRect3/MarginContainer2/VBoxContainer2"]
 auto_translate_mode = 1
 layout_mode = 2
-text = "Brake"
+text = "Brake / Reverse"
 
 [node name="BoxContainer2" type="BoxContainer" parent="Control/HBoxContainer/ColorRect3/MarginContainer2/VBoxContainer2"]
 auto_translate_mode = 1
@@ -218,3 +228,240 @@ step = 5.0
 value = 40.0
 fill_mode = 1
 show_percentage = false
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -100.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 12
+
+[node name="ColorRect2" type="ColorRect" parent="Control/HBoxContainer2"]
+auto_translate_mode = 1
+custom_minimum_size = Vector2(110, 64)
+layout_mode = 2
+color = Color(0.121569, 0.121569, 0.121569, 0.25098)
+
+[node name="MarginContainer2" type="MarginContainer" parent="Control/HBoxContainer2/ColorRect2"]
+auto_translate_mode = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_right = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="HBoxContainer" parent="Control/HBoxContainer2/ColorRect2/MarginContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/HBoxContainer2/ColorRect2/MarginContainer2/VBoxContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = " x: "
+
+[node name="label_x" type="Label" parent="Control/HBoxContainer2/ColorRect2/MarginContainer2/VBoxContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "0"
+
+[node name="ColorRect3" type="ColorRect" parent="Control/HBoxContainer2"]
+auto_translate_mode = 1
+custom_minimum_size = Vector2(110, 64)
+layout_mode = 2
+color = Color(0.121569, 0.121569, 0.121569, 0.25098)
+
+[node name="MarginContainer2" type="MarginContainer" parent="Control/HBoxContainer2/ColorRect3"]
+auto_translate_mode = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_right = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="HBoxContainer" parent="Control/HBoxContainer2/ColorRect3/MarginContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/HBoxContainer2/ColorRect3/MarginContainer2/VBoxContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = " y: "
+
+[node name="label_y" type="Label" parent="Control/HBoxContainer2/ColorRect3/MarginContainer2/VBoxContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "0"
+
+[node name="BoxContainer" type="BoxContainer" parent="Control/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ColorRect4" type="ColorRect" parent="Control/HBoxContainer2"]
+auto_translate_mode = 1
+custom_minimum_size = Vector2(148, 100)
+layout_mode = 2
+color = Color(0.121569, 0.121569, 0.121569, 0.25098)
+
+[node name="MarginContainer2" type="MarginContainer" parent="Control/HBoxContainer2/ColorRect4"]
+auto_translate_mode = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_right = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="HBoxContainer" parent="Control/HBoxContainer2/ColorRect4/MarginContainer2"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Control/HBoxContainer2/ColorRect4/MarginContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(85.82, 0)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="Control/HBoxContainer2/ColorRect4/MarginContainer2/VBoxContainer/Control"]
+position = Vector2(43, 37.9999)
+scale = Vector2(0.357143, 0.357143)
+texture = ExtResource("2_o6kjg")
+
+[node name="gem_black" type="Label" parent="Control/HBoxContainer2/ColorRect4/MarginContainer2/VBoxContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "0"
+
+[node name="ColorRect5" type="ColorRect" parent="Control/HBoxContainer2"]
+auto_translate_mode = 1
+custom_minimum_size = Vector2(148, 100)
+layout_mode = 2
+color = Color(0.121569, 0.121569, 0.121569, 0.25098)
+
+[node name="MarginContainer2" type="MarginContainer" parent="Control/HBoxContainer2/ColorRect5"]
+auto_translate_mode = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_right = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="HBoxContainer" parent="Control/HBoxContainer2/ColorRect5/MarginContainer2"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Control/HBoxContainer2/ColorRect5/MarginContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(85.82, 0)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="Control/HBoxContainer2/ColorRect5/MarginContainer2/VBoxContainer/Control"]
+position = Vector2(43, 37.9999)
+scale = Vector2(0.357143, 0.357143)
+texture = ExtResource("3_8ftin")
+
+[node name="gem_green" type="Label" parent="Control/HBoxContainer2/ColorRect5/MarginContainer2/VBoxContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "0"
+
+[node name="ColorRect6" type="ColorRect" parent="Control/HBoxContainer2"]
+auto_translate_mode = 1
+custom_minimum_size = Vector2(148, 100)
+layout_mode = 2
+color = Color(0.121569, 0.121569, 0.121569, 0.25098)
+
+[node name="MarginContainer2" type="MarginContainer" parent="Control/HBoxContainer2/ColorRect6"]
+auto_translate_mode = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_right = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="HBoxContainer" parent="Control/HBoxContainer2/ColorRect6/MarginContainer2"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Control/HBoxContainer2/ColorRect6/MarginContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(85.82, 0)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="Control/HBoxContainer2/ColorRect6/MarginContainer2/VBoxContainer/Control"]
+position = Vector2(43, 37.9999)
+scale = Vector2(0.357143, 0.357143)
+texture = ExtResource("4_jjij3")
+
+[node name="gem_yellow" type="Label" parent="Control/HBoxContainer2/ColorRect6/MarginContainer2/VBoxContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "0"
+
+[node name="TouchScreenButton_up" type="TouchScreenButton" parent="."]
+position = Vector2(32, 219)
+scale = Vector2(0.8, 0.8)
+texture_normal = ExtResource("5_k26jh")
+action = "ui_up"
+
+[node name="TouchScreenButton_down" type="TouchScreenButton" parent="."]
+position = Vector2(32, 330)
+scale = Vector2(0.8, 0.8)
+texture_normal = ExtResource("6_ktjc6")
+action = "ui_down"
+
+[node name="TouchScreenButton_left" type="TouchScreenButton" parent="."]
+position = Vector2(946, 277)
+scale = Vector2(0.8, 0.8)
+texture_normal = ExtResource("7_gwwr3")
+shape_visible = false
+action = "ui_left"
+
+[node name="TouchScreenButton_right" type="TouchScreenButton" parent="."]
+position = Vector2(1047, 277)
+scale = Vector2(0.8, 0.8)
+texture_normal = ExtResource("8_17buh")
+shape_visible = false
+action = "ui_right"
+
+[node name="TouchScreenButton_fire" type="TouchScreenButton" parent="."]
+position = Vector2(759, 597)
+scale = Vector2(0.630952, 0.630952)
+shape = SubResource("RectangleShape2D_cktpe")
+action = "blackmagic"

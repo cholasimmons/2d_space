@@ -1,11 +1,14 @@
-[gd_scene load_steps=15 format=3 uid="uid://2a3m16bs5bfm"]
+[gd_scene load_steps=18 format=3 uid="uid://2a3m16bs5bfm"]
 
 [ext_resource type="PackedScene" uid="uid://dy74yu1qwaxwn" path="res://scenes/ship.tscn" id="1_6c5bo"]
 [ext_resource type="Script" path="res://scripts/world.gd" id="1_icse2"]
 [ext_resource type="PackedScene" uid="uid://wb48csdfxnlg" path="res://ui/hud.tscn" id="1_tlyc6"]
+[ext_resource type="Script" path="res://scripts/background_stars.gd" id="2_pcduq"]
 [ext_resource type="PackedScene" uid="uid://cabh652778310" path="res://ui/debug.tscn" id="3_bnj5k"]
 [ext_resource type="Texture2D" uid="uid://bom6531kvsfdc" path="res://assets/space1.jpg" id="5_bnjew"]
 [ext_resource type="Script" path="res://scripts/camera_script.gd" id="5_f6now"]
+[ext_resource type="Script" path="res://scripts/spawn_ai.gd" id="6_wk1qq"]
+[ext_resource type="Script" path="res://scripts/scatter_gems.gd" id="7_g7yan"]
 [ext_resource type="PackedScene" uid="uid://ddtlebvhrh2gc" path="res://scenes/planet_01.tscn" id="7_ktc1n"]
 [ext_resource type="PackedScene" uid="uid://erngacg6jym" path="res://scenes/planet_02.tscn" id="8_ijibi"]
 [ext_resource type="AudioStream" uid="uid://dxjjy0gck463y" path="res://audio/Lost in Space.mp3" id="9_ulgia"]
@@ -52,6 +55,10 @@ _data = {
 [node name="2D_World" type="Node2D"]
 script = ExtResource("1_icse2")
 
+[node name="Background" type="Node2D" parent="."]
+visible = false
+script = ExtResource("2_pcduq")
+
 [node name="Hud" parent="." instance=ExtResource("1_tlyc6")]
 visible = false
 
@@ -61,16 +68,15 @@ visible = false
 [node name="Ship" parent="." instance=ExtResource("1_6c5bo")]
 mass = 0.6
 
-[node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(0.8, 0.8)
-script = ExtResource("5_f6now")
-screen_threshold = 0.3
-smoothing_speed = 1.2
+[node name="SpawnAI" type="Node2D" parent="."]
+script = ExtResource("6_wk1qq")
+
+[node name="ScatterGems" type="Node2D" parent="."]
+script = ExtResource("7_g7yan")
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
 [node name="ParallaxLayer_BG" type="ParallaxLayer" parent="ParallaxBackground"]
-modulate = Color(0.873298, 0.873298, 0.873298, 1)
 texture_filter = 3
 texture_repeat = 3
 motion_scale = Vector2(0.175, 0.175)
@@ -114,6 +120,12 @@ libraries = {
 "": SubResource("AnimationLibrary_ai8v6")
 }
 
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.8, 0.8)
+script = ExtResource("5_f6now")
+screen_threshold = 0.3
+smoothing_speed = 1.2
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Fader" type="ColorRect" parent="CanvasLayer"]
@@ -124,3 +136,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
+
+[node name="Space" type="CanvasLayer" parent="."]
+layer = -110
+
+[node name="ColorRect" type="ColorRect" parent="Space"]
+show_behind_parent = true
+z_index = -12
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0, 0.0313726, 0.0627451, 1)

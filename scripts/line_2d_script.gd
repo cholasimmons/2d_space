@@ -6,6 +6,8 @@ extends Node2D
 @onready var trail_r: Node2D = get_parent().get_node("trail_r")
 
 @export var trail_size = 1.4
+@export var is_enemy:= false
+
 const threshold_velocity = 40.0
 const max_velocity = 150.0
 const min_opacity = 0.1  # 10% opacity
@@ -55,9 +57,12 @@ func emit_points() -> void:
 		trail_points_right.remove_at(0)
 
 func _draw():
+	var trail_color = Color(1,1,1)
+	if is_enemy:
+		trail_color = Color(0.698039, 0.133333, 0.133333)
 	for i in range(1, trail_points_left.size()):
 		var alpha = i / (max_points * fade_start)  # Gradual fading
-		draw_line(to_local(trail_points_left[i]), to_local(trail_points_left[i - 1]), Color(1, 1, 1, alpha * point_opacity ), trail_size)
+		draw_line(to_local(trail_points_left[i]), to_local(trail_points_left[i - 1]), Color(trail_color.r, trail_color.g, trail_color.b, alpha * point_opacity ), trail_size)
 	for i in range(1, trail_points_right.size()):
 		var alpha = i / (max_points * fade_start)  # Gradual fading
-		draw_line(to_local(trail_points_right[i]), to_local(trail_points_right[i - 1]), Color(1, 1, 1, alpha * point_opacity ), trail_size)
+		draw_line(to_local(trail_points_right[i]), to_local(trail_points_right[i - 1]), Color(trail_color.r, trail_color.g, trail_color.b, alpha * point_opacity ), trail_size)

@@ -6,7 +6,7 @@ extends CanvasLayer
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	fader.visible = false
+	fader.visible = true
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -17,21 +17,21 @@ func _process(_delta: float) -> void:
 func _on_button_pressed() -> void:
 	# Fade out the music over 2 seconds
 	# Start the fade-out process
-	var fade_duration = 2.0  # Duration of the fade-out in seconds
+	var fade_duration = 1.6  # Duration of the fade-out in seconds
 	var start_volume = audio_player.volume_db  # Get the current volume
 	#var end_volume = -80  # Volume level to fade to (in decibels, -80 is silent)
 	
 	# Set up a timer to handle the fade-out process
-	var fade_timer = Timer.new()
-	fade_timer.one_shot = true
-	fade_timer.wait_time = fade_duration
-	add_child(fade_timer)
-	fade_timer.connect("timeout", _on_fade_timer_timeout)
+	var fade_timer = get_tree().create_timer(fade_duration)
+	#fade_timer.one_shot = true
+	#add_child(fade_timer)
+	#fade_timer.connect("timeout", _on_fade_timer_timeout)
+	
 
 	#audio_player.fade_target_db = end_volume
 	audio_player.volume_db = start_volume  # Set initial volume to start the fade
-	fade_timer.start()
-	
+	#fade_timer.start()
+	await fade_timer.timeout.connect(_on_fade_timer_timeout)
 	# Call a function to start the screen fade-out animation after the audio fade-out
 	call_deferred("_start_screen_fade_out")
 

@@ -3,7 +3,7 @@ extends Area2D
 @onready var collision_shape = $CollisionShape2D  # Adjust the path to your CollisionShape2D node
 var circle_shape: CircleShape2D
 
-signal scanner_alert(detected)
+#signal scanner_alert(detected)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -20,7 +20,7 @@ func _on_body_entered(body):
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
 
 # Function to get the radius of the circular collision shape

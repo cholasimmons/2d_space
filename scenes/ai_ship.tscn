@@ -1,0 +1,77 @@
+[gd_scene load_steps=4 format=3 uid="uid://c7j5un3ej848s"]
+
+[ext_resource type="Script" path="res://scripts/ai_ship.gd" id="1_5vx4x"]
+[ext_resource type="Texture2D" uid="uid://cqfs8nf62s326" path="res://assets/ship_sprite.png" id="2_o65pn"]
+[ext_resource type="Script" path="res://scripts/line_2d_script.gd" id="5_q3ajt"]
+
+[node name="Enemy_Ship" type="CharacterBody2D" groups=["AIShip"]]
+collision_layer = 5
+collision_mask = 5
+motion_mode = 1
+script = ExtResource("1_5vx4x")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(11.7, 0)
+polygon = PackedVector2Array(-21, -38, -14, -26, -6, -25, 2, -11, 14, -11, 31, -1, 31, 1, 14, 11, 2, 11, -5, 25, -14, 26, -20, 38, -30, 38, -31, 24, -38, 5, -38, -5, -31, -24, -30, -38)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(11.7, 0)
+rotation = 1.5708
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_o65pn")
+
+[node name="TrailEmitter" type="Node2D" parent="."]
+show_behind_parent = true
+position = Vector2(-1.24998, -6)
+rotation = 1.5708
+scale = Vector2(2, 2)
+script = ExtResource("5_q3ajt")
+is_enemy = true
+
+[node name="trail_l" type="Node2D" parent="."]
+position = Vector2(-18, -37)
+
+[node name="trail_r" type="Node2D" parent="."]
+position = Vector2(-18, 37)
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = 2.0
+offset_top = -8.0
+offset_right = 9.0
+offset_bottom = -3.0
+color = Color(0.72549, 0, 0.168627, 1)
+
+[node name="ColorRect5" type="ColorRect" parent="."]
+offset_left = -21.0
+offset_top = -13.0
+offset_right = -7.0
+offset_bottom = -8.0
+color = Color(0.72549, 0, 0.168627, 1)
+
+[node name="ColorRect6" type="ColorRect" parent="."]
+offset_left = -21.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = 13.0
+color = Color(0.72549, 0, 0.168627, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="."]
+offset_left = -10.0
+offset_top = -25.0
+offset_right = -3.0
+offset_bottom = -18.0
+color = Color(0.72549, 0, 0.168627, 1)
+
+[node name="ColorRect4" type="ColorRect" parent="."]
+offset_left = -10.0
+offset_top = 18.0
+offset_right = -3.0
+offset_bottom = 25.0
+color = Color(0.72549, 0, 0.168627, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+offset_left = 2.0
+offset_top = 3.0
+offset_right = 9.0
+offset_bottom = 8.0
+color = Color(0.72549, 0, 0.168627, 1)

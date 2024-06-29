@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-signal ship_engine(stats)
+#signal ship_engine(stats)
 signal ship_is_ready(ready)
 signal ship_stats(ship_stats)
 
@@ -10,6 +10,7 @@ var weapon_sound: AudioSample
 @onready var thrustSound: AudioStreamPlayer = $AudioStreamPlayer2
 @onready var hatch = $Dock2D
 @onready var scanner = $Proximity2D
+@onready var shiphull = $ShipHull
 
 @export var ship_name:String = 'Nebuchadnnezzer'
 @export var ship_class:String = 'Destroyer'
@@ -19,11 +20,12 @@ var weapon_sound: AudioSample
 @export var ship_color :Color = Color.CRIMSON 
 
 # Consts
-const THRUST_FORCE:float = 110.0
+const THRUST_FORCE:float = 100.0
 const BASE_ROTATION_SPEED = 1.8
 const ACCELERATION_SPEED = 4.0
 const DECELERATION_SPEED = 1.5
 const MAX_HEALTH = 100.0
+const BLACK_HOLE_SCENE_PATH = "res://scenes/BlackHole.tscn"
 
 var scanner_radius = 175
 
@@ -55,6 +57,7 @@ var rotation_angle = 0.0
 var rotation_multiplier := 0.0
 var rotation_deceleration = 0.3  # Adjust the rate of reduction
 var target_rotation_multiplier = 0.0
+var coords:Vector2 = Vector2.ZERO # XY map coordinates
 
 var show_debug := false;
 
@@ -63,29 +66,40 @@ var show_debug := false;
 var playing_ignite:= false
 var playing_thrust:= false
 
+var collected_gems :Dictionary = {
+	"BLACK": 0,
+	"YELLOW": 0,
+	"GREEN": 0
+}
+
 func _ready() -> void:
-	var ready = {
+	add_to_group("Player")
+	var ship = {
 		"name":ship_name,
 		"class":ship_class
 	}
+	shiphull.name = ship_name
+	shiphull.add_to_group("Player")
 	if ship_name and ship_class:
-		print(ready.name, " ready to blast off")
-		emit_signal("ship_is_ready", ready)
-	hatch.connect("docked_with_ship", _on_docked_with_ship)
+		print(ship.name, " ready to blast off")
+		ship_is_ready.emit(ready)
+	#hatch.connect("docked_with_ship", _on_docked_with_ship)
 	
 	# weapon_sound = AudioSample.new()
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("reset"):
 		reset_player()
-	if event.is_action_pressed("dock"):
-		attempt_dock()
-	if event.is_action_pressed("2"):
-		select_weapon(2)
+	#if event.is_action_pressed("dock"):
+		#attempt_dock()
+	#if event.is_action_pressed("2"):
+		#select_weapon(2)
 	if event.is_action_pressed("space"):
 		shoot_weapon(selected_weapon)
 	if event.is_action_pressed("tab"):
 		show_debug = !show_debug
+	if event.is_action_pressed("blackmagic"):
+		unleash_blackmagic("BLACK")
 	
 	# Check for Shift key pressed along with left/right arrow keys
 	if Input.is_action_pressed("shift") and Input.is_action_pressed("ui_left"):
@@ -110,12 +124,12 @@ func _process(delta: float) -> void:
 		thrust_vector = Vector2((THRUST_FORCE/mass), 0).rotated(rotation) * current_acceleration
 		if current_speed > 10 and !playing_ignite:
 			play_ignite_sound()
-	elif Input.is_action_pressed("ui_down"):
+	if Input.is_action_pressed("ui_down"):
 		current_brake = lerp(current_brake, 0.9, DECELERATION_SPEED * delta)
 		thrust_vector = Vector2(-(THRUST_FORCE/mass), 0).rotated(rotation) * current_brake
-	else:
-		current_acceleration = lerp(current_acceleration, 0.0, ACCELERATION_SPEED * delta)
-		current_brake = lerp(current_brake, 0.0, DECELERATION_SPEED * delta)
+
+	current_acceleration = lerp(current_acceleration, 0.0, ACCELERATION_SPEED * delta)
+	current_brake = lerp(current_brake, 0.0, DECELERATION_SPEED * delta)
 	
 	
 	# Regular left/right movement code here
@@ -163,29 +177,40 @@ func _process(delta: float) -> void:
 	if current_speed < 150:
 		thrustSound.stop()
 		playing_thrust = false
+		
+	current_health -= 0.8 * delta
+	if current_health <= 0:
+		get_tree().quit()
 	
-	var ship = {
+	update_coordinates()	
+	
+	ship_stats.emit({
+		"coords": coords,
 		"acceleration":current_acceleration,
 		"brake":current_brake,
 		"thrust":thrust_vector,
 		"speed":current_speed/max_speed,
-		"health":current_health
-	}
-	emit_signal("ship_engine", ship)
-	emit_signal("ship_stats", {
+		"health":current_health,
 		"show":show_debug,
-		"thrust_force":THRUST_FORCE,
 		"top_speed":max_speed,
 		"current_speed":current_speed,
-		"rot_speed":rotation_multiplier,
+		"rot_speed":rotation,
 		"rot_angle":rotation_angle,
-		"gun":selected_weapon
+		"gun":selected_weapon,
+		"gems": collected_gems
 	})
 
 
 func _physics_process(_delta:float):
 	pass
 
+# Map coordinates
+func update_coordinates():
+	var x_coordinate = int(position.x / 1000.0)
+	var y_coordinate = -int(position.y / 1000.0)
+
+	# Update the labels with the converted coordinates
+	coords = Vector2(x_coordinate, y_coordinate)
 
 
 func reset_player():
@@ -200,7 +225,7 @@ func select_weapon(weapon_id: int):
 	#weapon_audio_player.set_stream(weapon_sound)
 	print("Selected weapon: ",weapon_id, selected_weapon)
 
-func shoot_weapon(weapon: weapons_arsenal):
+func shoot_weapon(_weapon: weapons_arsenal):
 	if (Time.get_time_dict_from_system()["second"] - lastShootTime) >= shootCooldown:
 		#print("Firing: ",weapon)
 		# Instantiate the bullet scene
@@ -259,6 +284,7 @@ func play_ignite_sound():
 		#thrustSound.stop()
 		#playing_thrust = false
 	if igniteSound and !igniteSound.is_playing() and !playing_thrust:
+		igniteSound.volume_db = -8.0
 		igniteSound.play()
 		playing_ignite = true
 	igniteSound.connect("finished", finished_ignite)
@@ -270,6 +296,7 @@ func play_thrust_sound():
 		igniteSound.stop()
 		playing_ignite = false
 	if thrustSound and !thrustSound.is_playing():
+		thrustSound.volume_db = -12.0
 		thrustSound.play()
 		playing_thrust = true
 
@@ -277,3 +304,35 @@ func finished_ignite():
 	playing_ignite = false
 func finished_thrust():
 	playing_thrust = false
+
+func unleash_blackmagic(this_gem_type):
+	if collected_gems.get(this_gem_type, 0) > 0:
+		var black_hole = load(BLACK_HOLE_SCENE_PATH).instantiate()
+		var player_position = global_position
+		var offset = Vector2(-20, 0)  # Adjust offset position behind the player
+		black_hole.global_position = player_position + offset
+		get_parent().add_child(black_hole)
+	
+		collected_gems[this_gem_type] -= 1
+		print("Used a ", this_gem_type, " gem! Remaining:", collected_gems["BLACK"] )
+	else:
+		print("No ", this_gem_type, " gems available!" )
+	pass
+
+
+func add_gem_power(gem_type: String):
+	if collected_gems.has(gem_type):
+		collected_gems[gem_type] += 1
+	else:
+		collected_gems[gem_type] = 1
+
+	match gem_type:
+		"YELLOW":
+			# Add yellow gem power logic
+			print("Collected a yellow gem! Total:", collected_gems[gem_type])
+		"GREEN":
+			# Add purple gem power logic
+			print("Collected a green gem! Total:", collected_gems[gem_type])
+		"BLACK":
+			# Add black gem power logic
+			print("Collected a black gem! Total:", collected_gems[gem_type])

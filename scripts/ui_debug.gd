@@ -1,7 +1,6 @@
 extends CanvasLayer
 
 @onready var debug = $"."
-@onready var thrustforce = $ColorRect/MarginContainer/HBoxContainer/SpeedContainer/HBoxContainer/thrustforce
 @onready var topspeed = $HBoxContainer/ColorRect/MarginContainer/SpeedContainer/HBoxContainer3/topspeed
 @onready var currentspeed = $HBoxContainer/ColorRect/MarginContainer/SpeedContainer/HBoxContainer4/currentspeed
 @onready var rotationspeed = $HBoxContainer/ColorRect2/MarginContainer/RotationContainer/HBoxContainer2/rotationspeed
